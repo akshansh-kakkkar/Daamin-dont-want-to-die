@@ -5,17 +5,54 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@keyframes float {
+  0% {
+    transform: translateY(-8px);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  20% {
+    transform: translateY(0px);
+  }
+
+  40% {
+    transform: translateY(-8px);
+  }
+
+  60% {
+    transform: translateY(0px);
+
+  }
+
+  80% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px cyan;
+  }
+
+  50% {
+    text-shadow:
+      0 0 10px cyan,
+      0 0 30px cyan,
+      0 0 60px cyan;
+  }
+
+  100% {
+    text-shadow: 0 0 5px cyan;
   }
 }
 
+
+.float {
+  animation: float ease 3s infinite;
+}
+
+.glow {
+  animation : glow ease 3s infinite
+}
