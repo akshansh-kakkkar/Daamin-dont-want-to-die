@@ -6,8 +6,8 @@ const LuckiestGuy = Luckiest_Guy({
 })
 export default function page({ children }: { children: ReactNode }) {
     return (
-        <div className={`bg-[radial-gradient(circle_at_center,_#0f172a_0%,_#020617_45%,_#000_100%)]  flex-col gap-12 h-screen w-screen flex py-10  text-center`}>
-            <div className={`float text-[#C084FC] ${LuckiestGuy} text-5xl font-bold glow shadow-purple-glow`}>
+        <div className={`bg-[radial-gradient(circle_at_center,_#0f172a_0%,_#020617_45%,_#000_100%)] flex-col gap-12 h-screen w-screen flex py-10  text-center`}>
+            <div className={`float text-[#C084FC] ${LuckiestGuy.className} text-5xl font-bold glow shadow-purple-glow`}>
                Mission Keep Daamin Alive
             </div>
            <div className="mx-20 h-full ">

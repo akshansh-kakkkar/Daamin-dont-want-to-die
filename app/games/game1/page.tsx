@@ -31,7 +31,7 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, [direction]);
     return (
-        <div className="relative w-full h-full overflow-hidden     rounded-3xl
+        <div className="relative w-full h-full overflow-hidden rounded-3xl
     bg-gradient-to-b
     from-purple-950/80
     to-slate-950/95
