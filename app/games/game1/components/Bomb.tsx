@@ -1,13 +1,21 @@
 import Image from "next/image";
 
-export default function Bomb() {
-    return (
-        <div className=" bottom-52 right-1/3 h-16 w-16 relative">
-            <Image
-                src="/bomb.png"
-                alt="Bomb"fill
-                className="absolute"
-            />
-        </div>
-    )
+interface BombProps {
+  x: number;
+  y: number;
+}
+
+export default function Bomb({ x, y }: BombProps) {
+  return (
+    <div
+      className="absolute h-16 w-16"
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+        transform: "translate(-50%, 0)",
+      }}
+    >
+      <Image src="/bomb.png" alt="Bomb" fill className="object-contain" />
+    </div>
+  );
 }

@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "app/games/game1/components/you_lost.tsx"  ],
   "exclude": ["node_modules"]
 }
