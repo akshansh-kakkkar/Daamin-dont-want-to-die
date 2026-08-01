@@ -1,14 +1,21 @@
 import Image from "next/image";
 
-export default function Durian(){
-    return(
-        <div className="relative z-60  left-1/2 top-72 h-40 w-20 -translate-x-1/2">
-    <Image
-      src="/durian.png"
-      alt="Durian"
-      fill
-      className="absolute"
-    />
+interface DurianProps {
+  x: number;
+  y: number;
+}
+
+export default function Durian({ x, y }: DurianProps) {
+  return (
+    <div
+      className="absolute h-20 w-20"
+      style={{
+        left: `${x}%`,
+        top: `${y}%`,
+        transform: "translate(-50%, 0)",
+      }}
+    >
+      <Image src="/durian.png" alt="Durian" fill className="object-contain" />
     </div>
-    )
+  );
 }
