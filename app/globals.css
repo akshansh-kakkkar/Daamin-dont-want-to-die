@@ -33,21 +33,21 @@
 }
 @keyframes glow {
   0% {
-    text-shadow: 0 0 5px cyan;
+    text-shadow: 0 0 5px #a855f7;
   }
 
   50% {
     text-shadow:
-      0 0 10px cyan,
-      0 0 30px cyan,
-      0 0 60px cyan;
+      0 0 10px #a855f7,
+      0 0 30px #9333ea,
+      0 0 60px #7e22ce,
+      0 0 100px #6b21a8;
   }
 
   100% {
-    text-shadow: 0 0 5px cyan;
+    text-shadow: 0 0 5px #a855f7;
   }
 }
-
 
 .float {
   animation: float ease 3s infinite;
