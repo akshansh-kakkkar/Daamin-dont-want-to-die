@@ -1,76 +1,100 @@
-interface LocationPromptProps {
-  onAllow: () => void;
-  lf: boolean;
+"use client";
+
+import Image from "next/image";
+import { RotateCcw } from "lucide-react";
+import { type CSSProperties, useEffect, useState } from "react";
+
+interface GameOverSequenceProps {
+  onReplay: () => void;
+  onBlast: () => void;
 }
 
-export default function LocationPrompt({ onAllow, lf }: LocationPromptProps) {
-  const css = `
-    .location-modal {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 1000;
-    }
+const bombBursts = [
+  { left: 8, top: 57, delay: 0 },
+  { left: 20, top: 72, delay: 90 },
+  { left: 31, top: 45, delay: 180 },
+  { left: 43, top: 68, delay: 270 },
+  { left: 52, top: 52, delay: 360 },
+  { left: 62, top: 76, delay: 450 },
+  { left: 72, top: 43, delay: 540 },
+  { left: 82, top: 65, delay: 630 },
+  { left: 91, top: 51, delay: 720 },
+  { left: 15, top: 34, delay: 810 },
+  { left: 48, top: 31, delay: 900 },
+  { left: 88, top: 28, delay: 990 },
+];
 
-    .location-card {
-      width: 420px;
-      max-width: 90vw;
-      padding: 30px;
-      border-radius: 24px;
-      background: rgba(248, 1, 1, 0.46);
-      border: 1px solid rgba(255, 0, 0, 0.32);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 0 40px rgb(124, 0, 0), inset 0 0 30px rgba(255, 0, 0, 0.52);
-      color: #00ff88;
-      font-family: monospace;
-    }
+export default function GameOverSequence({ onReplay, onBlast }: GameOverSequenceProps) {
+  const [showReplay, setShowReplay] = useState(false);
 
-    .location-card h2 {
-      margin: 0 0 15px;
-      font-size: 34px;
-      text-shadow: 0 0 18px #ff0000;
-    }
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowReplay(true), 1_650);
+    const blastTimers = [650, 1_000, 1_350].map((delay) => window.setTimeout(onBlast, delay));
 
-    .location-card button {
-      margin-top: 28px;
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #00ff66, #00c853);
-      color: #001a00;
-      font-family: inherit;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .location-card button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0, 255, 100, 0.45);
-    }
-  `;
-
-  const headingText = lf ? "YOU LOST" : "YOU LOST";
+    return () => {
+      window.clearTimeout(timer);
+      blastTimers.forEach((blastTimer) => window.clearTimeout(blastTimer));
+    };
+  }, [onBlast]);
 
   return (
-    <div>
-      <style>{css}</style>
-      <div className="location-modal">
-        <div className="location-card">
-          <h2 style={{ color: "#ff0000" }}>{headingText}</h2>
-          <button type="button" onClick={() => onAllow()}>
-            Replay?
-          </button>
+    <div className="pointer-events-none absolute inset-0 z-50 overflow-hidden">
+      <style>{`
+        @keyframes game-over-bomb {
+          0% { top: -90px; opacity: 0; transform: translateX(-50%) rotate(-30deg) scale(0.7); }
+          12% { opacity: 1; }
+          78% { top: var(--landing-y); opacity: 1; transform: translateX(-50%) rotate(290deg) scale(1); }
+          100% { top: var(--landing-y); opacity: 0; transform: translateX(-50%) rotate(330deg) scale(0.2); }
+        }
+
+        @keyframes game-over-blast {
+          0%, 76% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
+          82% { opacity: 1; transform: translate(-50%, -50%) scale(0.75); }
+          90% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.65); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); }
+        }
+
+        @keyframes replay-appear {
+          from { opacity: 0; transform: translate(-50%, 16px) scale(0.7); }
+          to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+      `}</style>
+
+      {bombBursts.map((bomb, index) => (
+        <div key={index}>
+          <div
+            className="absolute h-16 w-16"
+            style={{
+              left: `${bomb.left}%`,
+              "--landing-y": `${bomb.top}%`,
+              animation: `game-over-bomb 850ms ease-in ${bomb.delay}ms forwards`,
+            } as CSSProperties}
+          >
+            <Image src="/bomb.png" alt="" fill className="object-contain" />
+          </div>
+          <div
+            className="absolute h-24 w-24 rounded-full border-4 border-yellow-100 bg-[radial-gradient(circle,_#fff7a0_0%,_#facc15_20%,_#fb923c_43%,_#ef4444_65%,_transparent_70%)] shadow-[0_0_34px_16px_rgba(239,68,68,0.85)]"
+            style={{
+              left: `${bomb.left}%`,
+              top: `calc(${bomb.top}% + 32px)`,
+              animation: `game-over-blast 850ms ease-out ${bomb.delay}ms forwards`,
+            }}
+          />
         </div>
-      </div>
+      ))}
+
+      {showReplay && (
+        <button
+          type="button"
+          onClick={onReplay}
+          aria-label="Replay game"
+          title="Replay"
+          className="pointer-events-auto absolute bottom-8 left-1/2 grid h-16 w-16 place-items-center rounded-full border border-white/40 bg-slate-950/80 text-white shadow-[0_0_30px_rgba(251,146,60,0.8)] backdrop-blur transition hover:scale-110 hover:bg-orange-500"
+          style={{ animation: "replay-appear 300ms ease-out forwards" }}
+        >
+          <RotateCcw className="h-8 w-8" />
+        </button>
+      )}
     </div>
   );
 }

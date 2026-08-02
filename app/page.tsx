@@ -1,6 +1,7 @@
 import { Luckiest_Guy } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import ArcadeHomeMusic from "./components/ArcadeHomeMusic";
 const LuckiestGuy = Luckiest_Guy({
   subsets: ['latin'],
   weight: ['400']
@@ -8,6 +9,7 @@ const LuckiestGuy = Luckiest_Guy({
 export default function Home() {
   return (
     <div className="relative flex justify-center items-center text-center flex-col gap-12 px-22 overflow-hidden h-screen w-full">
+      <ArcadeHomeMusic />
       <div className="absolute inset-0 bg-[url('/scape.jpg')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-black/80" />
       <div className="relative z-1222 flex flex-col justify-between gap-8 items-center text-center justify-center">
