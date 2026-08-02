@@ -40,7 +40,7 @@ export default function Game() {
   const enemyMoveDelay = Math.max(14, 44 - difficulty * 3);
   const projectileMoveDelay = Math.max(16, 28 - difficulty);
   const projectileStep = 4 + difficulty * 0.2;
-  const durianDropChance = Math.min(0.017, 0.002 + difficulty * 0.0015);
+  const durianDropChance = Math.min(0.03, 0.005 + difficulty * 0.00225);
   const bombDropChance = Math.min(0.012, 0.001 + difficulty * 0.0011);
 
   useEffect(() => {
